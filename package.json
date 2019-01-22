@@ -15,5 +15,15 @@
   "bugs": {
     "url": "https://github.com/Namasta/CalendarBot2/issues"
   },
-  "homepage": "https://github.com/Namasta/CalendarBot2#readme"
+  "homepage": "https://github.com/Namasta/CalendarBot2#readme",
+  "dependencies": {
+    "actions-on-google": "^2.5.0",
+    "body-parser": "^1.18.3",
+    "dialogflow-fulfillment": "^0.6.1",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "firebase-admin": "^6.5.0",
+    "firebase-functions": "^2.1.0",
+    "save": "^2.3.3"
+  }
 }
