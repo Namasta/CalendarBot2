@@ -76,8 +76,8 @@ const expressApp = express().use(bodyParser.json());
 
 expressApp.post('/fulfillment', app.dialogflowFirebaseFulfillment);
 //expressApp.listen(3000);
-//var listener = expressApp.listen(process.env.PORT, process.env.IP, function () {
-    var listener = app.listen(4000, process.env.IP, function () {
+var listener = expressApp.listen(process.env.PORT, process.env.IP, function () {
+    //var listener = expressApp.listen(4000, process.env.IP, function () {
     console.log("server started");
     console.log("listening on port " +
       listener.address().port);
