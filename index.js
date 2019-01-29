@@ -23,7 +23,7 @@ admin.initializeApp({
 
 const app = dialogflow();
 
-admin.initializeApp();
+//admin.initializeApp();
 const db = admin.firestore();
 
 const timeZone = 'Asia/HongKong';
