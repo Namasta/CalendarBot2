@@ -292,4 +292,4 @@ var listener = expressApp.listen(process.env.PORT, process.env.IP, function () {
   });
 
 
-exports.dialogflowFirebaseFulfillment = functions.https.onRequest(app);
+//exports.dialogflowFirebaseFulfillment = functions.https.onRequest(app);
