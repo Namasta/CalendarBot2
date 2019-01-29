@@ -3,7 +3,7 @@
 //const functions = require('firebase-functions');
 //const {webhookClient,  Button, Suggestion } = require('dialogflow-fulfillment');
 const {dialogflow,BasicCard,} = require('actions-on-google');
-//const requestLib = require('request');
+const requestLib = require('request');
 
 
 const express = require('express');
@@ -284,8 +284,8 @@ const expressApp = express().use(bodyParser.json());
 
 expressApp.post('/fulfillment', app.dialogflowFirebaseFulfillment);
 //expressApp.listen(3000);
-var listener = expressApp.listen(process.env.PORT, process.env.IP, function () {
-    //var listener = app.listen(4000, process.env.IP, function () {
+//var listener = expressApp.listen(process.env.PORT, process.env.IP, function () {
+    var listener = app.listen(4000, process.env.IP, function () {
     console.log("server started");
     console.log("listening on port " +
       listener.address().port);
