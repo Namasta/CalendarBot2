@@ -2,7 +2,7 @@
 
 //const functions = require('firebase-functions');
 //const {webhookClient,  Button, Suggestion } = require('dialogflow-fulfillment');
-//const {dialogflow,BasicCard,} = require('actions-on-google');
+const {dialogflow,BasicCard,} = require('actions-on-google');
 //const requestLib = require('request');
 
 
