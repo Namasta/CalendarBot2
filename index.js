@@ -78,7 +78,8 @@ app.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response
         return getQueries(email,agent).then((output)=>{
             agent.add(output);
             agent.add(new Card({
-                title: output,
+                title: 'Appointments',
+                text: output,
             }));
             return console.log('GetAppt executed');
         }) ;
