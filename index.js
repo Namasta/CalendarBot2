@@ -72,6 +72,15 @@ app.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response
        agent.add('Done! '+ entry.name +' , I have recorded that you have a ' + entry.event + ' on ' + entry.date.split('T')[0] + ' at ' + entry.time.split('T')[1].split('+')[0] + ' for '+ entry.duration[0] + ' under '+ entry.email +'.');
     }
 
+    function getAppointment(agent) {
+        var email = agent.parameters.email;
+    //app.intent('GetAppt', (conv,{email}) =>{    
+        return getQueries(email).then((output)=>{
+            agent.add(output);
+            return console.log('GetAppt executed');
+        }) ;
+    };
+
     
     
 
@@ -82,6 +91,7 @@ app.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response
     intentMap.set('Default Welcome Intent', welcome);
     intentMap.set('Default Fallback Intent', fallback);
     intentMap.set('CreateAppointment', createAppointment);
+    intentMap.set('GetAppt', getAppointment);
     // intentMap.set('your intent name here', googleAssistantHandler);
     agent.handleRequest(intentMap);
 });
@@ -106,5 +116,46 @@ function createappt(entry){
         console.log('Added');
     });
 
+}
+
+
+
+function getQueries (email) {
+    return new Promise((resolve, reject) => {
+        var eventRef = db.collection('appointment').doc(email).collection('event');
+        eventRef.get().then(snapshot => {
+            var str = "";
+            var count = 0;
+            /*if(snapshot.size > 0){
+                str = "You have " + snapshot.size + " events. ";
+            }
+            else{
+                str = "You do not have any appointment";
+            }*/
+            snapshot.forEach(doc => {
+                var dt = new Date(doc.data().date);
+                var time =new Date(doc.data().time);
+                var tm = doc.data().time;
+                if(dt > Date.now()){
+                    //console.log('Found doc with id:', doc.id);
+                    count++;
+                    //str += 'Found doc with id:' + doc.id;
+                    str += '\n' ;
+                    str += "Event " +count + ", " + dt.toDateString();
+                    //str += " at " + tm;
+                    str += " at " + tm.split('T')[1].split('+')[0] + ".";
+                     //time.split('T')[1].split('+')[0]
+                    //str += "at " + time.toTimeString().slice(1,time.toTimeString().indexOf("GMT+")) + "."; 
+                }
+            });
+            //conv.add(str);
+            resolve(str);
+        });
+        /*.catch(err => {
+            console.log('Error getting documents', err);
+            conv.add("Error getting event");
+            reject("test");
+        });*/
+    });
 }
 //exports.dialogflowFirebaseFulfillment = functions.https.onRequest(app);
