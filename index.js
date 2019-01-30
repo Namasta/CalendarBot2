@@ -85,10 +85,24 @@ app.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response
         }) ;
     };
 
-    
-    
+    function cancelAppointment(agent) {
+        var email = agent.parameters.email;
+    //app.intent('CancelAppt', (conv,{email}) =>{
+        return getQueries(email,agent).then((output)=>{
+            agent.add(" Which appointments do you wish to cancel?");
+            return console.log("CancelAppointmentIntent executed");
+        }); 
+    };
 
-
+    function cancelSelectedAppointment(agent) { 
+        var email = agent.parameters.email;
+        var number = agent.parameters.number;   
+    //app.intent('CancelSelectedAppt', (conv,{email,number}) =>{
+        return deleteAppt(email,number,agent).then((output)=>{
+            //conv.ask("Cancellation Done");
+            return console.log("CancelSelectedApptIntent executed");
+        }); 
+    };
 
     // Run the proper function handler based on the matched Dialogflow intent name
     let intentMap = new Map();
@@ -96,6 +110,8 @@ app.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response
     intentMap.set('Default Fallback Intent', fallback);
     intentMap.set('CreateAppointment', createAppointment);
     intentMap.set('GetAppt', getAppointment);
+    intentMap.set('CancelAppt', cancelAppointment);
+    intentMap.set('CancelSelectedAppt', cancelSelectedAppointment);
     // intentMap.set('your intent name here', googleAssistantHandler);
     agent.handleRequest(intentMap);
 });
@@ -111,6 +127,7 @@ var listener = expressApp.listen(process.env.PORT, process.env.IP, function () {
       listener.address().port);
   });
 
+  //********************************************************************************************** */
 
 function createappt(entry){
     var email = entry.email;
@@ -170,6 +187,40 @@ function getQueries (email,agent) {
             conv.add("Error getting event");
             reject("test");
         });*/
+    });
+}
+
+function deleteAppt(email,number,agent){
+    return new Promise((resolve, reject) => {
+        var eventRef = db.collection('appointment').doc(email).collection('event');
+        eventRef.get().then(snapshot => {
+            var str = "";
+            var id = "";
+            var count = 0;
+            //Get booking reference
+            snapshot.forEach(doc => {
+                var dt = new Date(doc.data().date);
+                var time = doc.data().time;
+                if(dt > Date.now()){
+                    count++;
+                    if(count == number){
+                        console.log('DEL:Found doc with id:', doc.id);
+                        str += count + ". Your booking on " + dt.toDateString();
+                        str += "at " + time.split('T')[1].split('+')[0] + " is cancelled.";
+                        //Delete doc here
+                        var deleteDoc = eventRef.doc(doc.id).delete();
+                        console.log('DEL:', deleteDoc);
+                    }
+                }
+            });
+            conv.ask(str);
+            resolve("Cancellation Resolved");
+        })
+        .catch(err => {
+            console.log('Error getting documents', err);
+            conv.ask("Error Cancelling");
+            reject("Cencellation Rejected");
+        });
     });
 }
 //exports.dialogflowFirebaseFulfillment = functions.https.onRequest(app);
