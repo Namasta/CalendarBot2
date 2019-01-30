@@ -72,14 +72,8 @@ app.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response
        agent.add('Done! '+ entry.name +' , I have recorded that you have a ' + entry.event + ' on ' + entry.date.split('T')[0] + ' at ' + entry.time.split('T')[1].split('+')[0] + ' for '+ entry.duration[0] + ' under '+ entry.email +'.');
     }
 
-    function createappt(entry){
-        var email = entry.email;
-        var event = entry.event;
-        var doc = db.collection('appointment').doc(email).collection('event')
-        .add(entry).then(ref => {
-            console.log('Added');
-        });
-    }
+    
+    
 
 
 
@@ -104,4 +98,13 @@ var listener = expressApp.listen(process.env.PORT, process.env.IP, function () {
   });
 
 
+function createappt(entry){
+    var email = entry.email;
+    var event = entry.event;
+    var doc = db.collection('appointment').doc(email).collection('event')
+    .add(entry).then(ref => {
+        console.log('Added');
+    });
+
+}
 //exports.dialogflowFirebaseFulfillment = functions.https.onRequest(app);
