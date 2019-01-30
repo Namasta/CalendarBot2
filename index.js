@@ -69,7 +69,7 @@ app.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response
         }        
 
        createappt(entry);
-       agent.add('Done! '+ entry.name +' , I have recorded that you have a ' + entry.event + ' on ' + entry.date.split('T')[0] + ' at ' + entry.time.split('T')[1].split('+')[0] + ' for '+ entry.duration[0] + ' under '+ entry.email +'.');
+       agent.add('Done! '+ entry.name +' , I have recorded that you have a ' + entry.event + ' on ' + entry.date.split('T')[0] + ' at ' + entry.time.split('T')[1].split('+')[0] + ' for '+ entry.duration.amount + ' under '+ entry.email +'.');
     }
 
     function getAppointment(agent) {
@@ -141,7 +141,7 @@ function getQueries (email,agent) {
                     count++;
                     //str += 'Found doc with id:' + doc.id;
                     agent.add(new Card({
-                         text: " ",
+                        title: ` `,
 
                     }));
                     //str += '\n' ;
