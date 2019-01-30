@@ -77,6 +77,9 @@ app.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response
     //app.intent('GetAppt', (conv,{email}) =>{    
         return getQueries(email,agent).then((output)=>{
             agent.add(output);
+            agent.add(new Card({
+                title: str,
+            }));
             return console.log('GetAppt executed');
         }) ;
     };
@@ -134,6 +137,7 @@ function getQueries (email,agent) {
                 str = "You do not have any appointment";
             }*/
             snapshot.forEach(doc => {
+                var cardstr = "";
                 var dt = new Date(doc.data().date);
                 var time =new Date(doc.data().time);
                 var tm = doc.data().time;
@@ -144,15 +148,17 @@ function getQueries (email,agent) {
                    
                     str += os.EOL ;
                     str += "Event " +count + ", " + dt.toDateString();
+                    cardstr += "Event " +count + ", " + dt.toDateString();
                     //str += " at " + tm;
                     str += " at " + tm.split('T')[1].split('+')[0] + "."+os.EOL+"\n\
                     ";
+                    cardstr += " at " + tm.split('T')[1].split('+')[0] + ".";
                      //time.split('T')[1].split('+')[0]
                     //str += "at " + time.toTimeString().slice(1,time.toTimeString().indexOf("GMT+")) + "."; 
                 }
 
                 agent.add(new Card({
-                    title: str,
+                    title: cardstr,
                 }));
             });
             
