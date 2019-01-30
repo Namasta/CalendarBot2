@@ -151,8 +151,7 @@ function getQueries (email,agent) {
                     str += "Event " +count + ", " + dt.toDateString();
                     cardstr += "Event " +count + ", " + dt.toDateString();
                     //str += " at " + tm;
-                    str += " at " + tm.split('T')[1].split('+')[0] + "."+os.EOL+"\n\
-                    ";
+                    str += " at " + tm.split('T')[1].split('+')[0] + "."+os.EOL+"\t\n\r";
                     cardstr += " at " + tm.split('T')[1].split('+')[0] + ".";
                      //time.split('T')[1].split('+')[0]
                     //str += "at " + time.toTimeString().slice(1,time.toTimeString().indexOf("GMT+")) + "."; 
