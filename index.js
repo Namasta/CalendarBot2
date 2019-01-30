@@ -59,7 +59,7 @@ app.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response
     function createAppointment(agent) {
         agent.add(`I am testimage`);
         agent.add(`I'm sorry, can you try again?`);
-        var entry = {   name: name,
+        var entry = {   name: agent.parameters.name,
             email:agent.parameters.email,
             date :agent.parameters.date,
             time:agent.parameters.time,
