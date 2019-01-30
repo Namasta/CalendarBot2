@@ -145,14 +145,17 @@ function getQueries (email,agent) {
                     str += os.EOL ;
                     str += "Event " +count + ", " + dt.toDateString();
                     //str += " at " + tm;
-                    str += " at " + tm.split('T')[1].split('+')[0] + ".";
+                    str += " at " + tm.split('T')[1].split('+')[0] + "."+os.EOL+"\n\
+                    ";
                      //time.split('T')[1].split('+')[0]
                     //str += "at " + time.toTimeString().slice(1,time.toTimeString().indexOf("GMT+")) + "."; 
                 }
+
+                agent.add(new Card({
+                    title: str,
+                }));
             });
-            agent.add(new Card({
-                title: str,
-            }));
+            
             //conv.add(str);
             resolve(str);
         });
