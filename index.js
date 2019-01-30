@@ -56,9 +56,19 @@ app.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response
         agent.add(`I'm sorry, can you try again?`);
     }
 
-    function testImage(agent) {
+    function createAppointment(agent) {
         agent.add(`I am testimage`);
         agent.add(`I'm sorry, can you try again?`);
+        var entry = {   name: name,
+            email:agent.parameters.email,
+            date :agent.parameters.date,
+            time:agent.parameters.time,
+            location: agent.parameters.location,
+            duration:agent.parameters.duration,
+            event:agent.parameters.event};            
+
+       // createappt(conv,entry);
+       agent.add('Done! '+ name +' , I have recorded that you have a ' + event + ' on ' + date.split('T')[0] + ' at ' + time.split('T')[1].split('+')[0] + ' for '+ duration[0] + ' under '+ email +'.');
     }
 
 
@@ -67,7 +77,7 @@ app.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response
     let intentMap = new Map();
     intentMap.set('Default Welcome Intent', welcome);
     intentMap.set('Default Fallback Intent', fallback);
-    intentMap.set('GetImageDetailIntent', testImage);
+    intentMap.set('CreateAppointment', createAppointment);
     // intentMap.set('your intent name here', googleAssistantHandler);
     agent.handleRequest(intentMap);
 });
