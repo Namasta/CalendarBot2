@@ -140,7 +140,10 @@ function getQueries (email,agent) {
                     //console.log('Found doc with id:', doc.id);
                     count++;
                     //str += 'Found doc with id:' + doc.id;
-                    agent.add(' ' );
+                    agent.add(new Card({
+                         text: " ",
+
+                    }));
                     //str += '\n' ;
                     str += "Event " +count + ", " + dt.toDateString();
                     //str += " at " + tm;
