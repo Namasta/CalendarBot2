@@ -75,7 +75,7 @@ app.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response
     function getAppointment(agent) {
         var email = agent.parameters.email;
     //app.intent('GetAppt', (conv,{email}) =>{    
-        return getQueries(email).then((output)=>{
+        return getQueries(email,agent).then((output)=>{
             agent.add(output);
             return console.log('GetAppt executed');
         }) ;
@@ -120,7 +120,7 @@ function createappt(entry){
 
 
 
-function getQueries (email) {
+function getQueries (email,agent) {
     return new Promise((resolve, reject) => {
         var eventRef = db.collection('appointment').doc(email).collection('event');
         eventRef.get().then(snapshot => {
@@ -140,7 +140,8 @@ function getQueries (email) {
                     //console.log('Found doc with id:', doc.id);
                     count++;
                     //str += 'Found doc with id:' + doc.id;
-                    str += '\n' ;
+                    agent.add(' ' );
+                    //str += '\n' ;
                     str += "Event " +count + ", " + dt.toDateString();
                     //str += " at " + tm;
                     str += " at " + tm.split('T')[1].split('+')[0] + ".";
