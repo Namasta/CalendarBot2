@@ -69,7 +69,7 @@ app.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response
         }        
 
        createappt(entry);
-       agent.add('Done! '+ entry.name +' , I have recorded that you have a ' + entry.event + ' on ' + entry.date.split('T')[0] + ' at ' + entry.time.split('T')[1].split('+')[0] + ' for '+ entry.duration.amount + ' under '+ entry.email +'.');
+       agent.add('Done! '+ entry.name +' , I have recorded that you have a ' + entry.event + ' on ' + entry.date.split('T')[0] + ' at ' + entry.time.split('T')[1].split('+')[0] + ' for '+ entry.duration.amount + entry.duration.unit +' under '+ entry.email +'.');
     }
 
     function getAppointment(agent) {
@@ -123,6 +123,7 @@ function createappt(entry){
 function getQueries (email,agent) {
     return new Promise((resolve, reject) => {
         var eventRef = db.collection('appointment').doc(email).collection('event');
+        var os = require('os');
         eventRef.get().then(snapshot => {
             var str = "";
             var count = 0;
@@ -140,11 +141,8 @@ function getQueries (email,agent) {
                     //console.log('Found doc with id:', doc.id);
                     count++;
                     //str += 'Found doc with id:' + doc.id;
-                    agent.add(new Card({
-                        title: ` `,
-
-                    }));
-                    //str += '\n' ;
+                   
+                    str += os.EOL ;
                     str += "Event " +count + ", " + dt.toDateString();
                     //str += " at " + tm;
                     str += " at " + tm.split('T')[1].split('+')[0] + ".";
@@ -152,6 +150,9 @@ function getQueries (email,agent) {
                     //str += "at " + time.toTimeString().slice(1,time.toTimeString().indexOf("GMT+")) + "."; 
                 }
             });
+            agent.add(new Card({
+                title: str,
+            }));
             //conv.add(str);
             resolve(str);
         });
