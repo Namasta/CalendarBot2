@@ -59,16 +59,17 @@ app.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response
     function createAppointment(agent) {
         agent.add(`I am testimage`);
         agent.add(`I'm sorry, can you try again?`);
-           name: agent.parameters.name;
-            email:agent.parameters.email;
-            date :agent.parameters.date;
-            time:agent.parameters.time;
-            location: agent.parameters.location;
-            duration:agent.parameters.duration;
-            event:agent.parameters.event ;         
+        var entry = {  name: agent.parameters.name,
+            email:agent.parameters.email,
+            date :agent.parameters.date,
+            time:agent.parameters.time,
+            location: agent.parameters.location,
+            duration:agent.parameters.duration,
+            event:agent.parameters.event 
+        }        
 
        // createappt(conv,entry);
-       agent.add('Done! '+ name +' , I have recorded that you have a ' + event + ' on ' + date.split('T')[0] + ' at ' + time.split('T')[1].split('+')[0] + ' for '+ duration[0] + ' under '+ email +'.');
+       agent.add('Done! '+ entry.name +' , I have recorded that you have a ' + entry.event + ' on ' + entry.date.split('T')[0] + ' at ' + entry.time.split('T')[1].split('+')[0] + ' for '+ entry.duration[0] + ' under '+ entry.email +'.');
     }
 
 
