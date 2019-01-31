@@ -213,7 +213,7 @@ function deleteAppt(email,number,agent){
                     }
                 }
             });
-            conv.ask(str);
+            agent.add(str);
             resolve("Cancellation Resolved");
         })
         .catch(err => {
