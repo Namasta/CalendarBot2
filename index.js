@@ -218,7 +218,7 @@ function deleteAppt(email,number,agent){
         })
         .catch(err => {
             console.log('Error getting documents', err);
-            conv.ask("Error Cancelling");
+            agent.add("Error Cancelling");
             reject("Cencellation Rejected");
         });
     });
