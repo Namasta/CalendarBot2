@@ -295,12 +295,12 @@ function updateEvent(email, number, conv) {
                 }
 
             });
-            conv.ask(str);
+            conv.add(str);
             resolve("Update Resolved");
         })
             .catch(err => {
                 console.log('Error getting documents', err);
-                conv.ask("Error Cancelling");
+                conv.add("Error Cancelling");
                 reject("Update Rejected");
             });
     });
@@ -344,12 +344,12 @@ function updateParam(email, number, param, date, time, location, duration, conv)
                 //}
 
             });
-            conv.ask(str);
+            conv.add(str);
             resolve("Cancellation Resolved");
         })
             .catch(err => {
                 console.log('Error getting documents', err);
-                conv.ask("Error Cancelling");
+                conv.add("Error Cancelling");
                 reject("Cencellation Rejected");
             });
     });
