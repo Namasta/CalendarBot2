@@ -78,11 +78,7 @@ app.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response
         //app.intent('GetAppt', (conv,{email}) =>{    
         return getQueries(email, agent).then((output) => {
             agent.add(output);
-            agent.add(new Card({
-                title: 'Appointments',
-                text: output,
-            }));
-            return console.log('GetAppt executed');
+                        return console.log('GetAppt executed');
         });
     };
 
@@ -187,12 +183,12 @@ function getQueries(email, agent) {
         eventRef.get().then(snapshot => {
             var str = "";
             var count = 0;
-            /*if(snapshot.size > 0){
+            if(snapshot.size > 0){
                 str = "You have " + snapshot.size + " events. ";
             }
             else{
                 str = "You do not have any appointment";
-            }*/
+            }
             snapshot.forEach(doc => {
                 var cardstr = "";
                 var dt = new Date(doc.data().date);
@@ -245,6 +241,7 @@ function deleteAppt(email, number, agent) {
                     if (count == number) {
                         console.log('DEL:Found doc with id:', doc.id);
                         str += count + ". Your booking on " + dt.toDateString();
+                                         
                         str += " at " + time.split('T')[1].split('+')[0] + " is cancelled.";
                         //Delete doc here
                         var deleteDoc = eventRef.doc(doc.id).delete();
@@ -283,9 +280,13 @@ function updateEvent(email, number, conv) {
                         console.log('DEL:Found doc with id:', doc.id);
                         //str += count + ". Your booking on " + dt.toDateString();
                         //str += "at " + time.toTimeString().slice(1,time.toTimeString().indexOf("GMT+")) + " is cancelled.";
-                        str += "Event " + count + ". Your apointment date : " + dt.toDateString();
-                        str += "\n  time: " + time.split('T')[1].split('+')[0];
-                        str += "\n   duration: " + dur['amount'] + dur['unit'];
+                        //str += "Event " + count + ". Your apointment date : " + dt.toDateString();
+                        conv.add(new Card({  title:  "Event " + count + ". Your apointment" ,}));
+                        conv.add(new Card({  title:  "date " + dt.toDateString()  ,}));
+                        conv.add(new Card({  title:  "time: " + time.split('T')[1].split('+')[0]  ,}));
+                        conv.add(new Card({  title:  "duration: " + dur['amount'] + dur['unit']  ,}));
+                        //str += "\n  time: " + time.split('T')[1].split('+')[0];
+                        //str += "\n   duration: " + dur['amount'] + dur['unit'];
                         //str += "\n    location: " + dur['amount'];
                         str += "\n    Which parameter and value do you want to update ? ";
                         //Delete doc here
