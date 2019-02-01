@@ -189,6 +189,9 @@ function getQueries(email, agent) {
             else{
                 str = "You do not have any appointment";
             }
+
+            doc.data().sort(function (a, b) { return b.date - a.date });
+
             snapshot.forEach(doc => {
                 var cardstr = "";
                 var dt = new Date(doc.data().date);
