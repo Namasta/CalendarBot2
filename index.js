@@ -233,7 +233,7 @@ function deleteAppt(email, number, agent) {
     return new Promise((resolve, reject) => {
         var eventRef = db.collection('appointment').doc(email).collection('event');
         eventRef.get().then(snapshot => {
-            var str = "Hello cancelled";
+            var str = "Hello cancelled : Event";
             var id = "";
             var count = 0;
             //Get booking reference
