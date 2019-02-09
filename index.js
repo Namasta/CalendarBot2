@@ -219,12 +219,12 @@ function getQueries(email, agent) {
 
             //conv.add(str);
             resolve(str);
-        });
-        /*.catch(err => {
+        })
+            .catch(err => {
             console.log('Error getting documents', err);
-            conv.add("Error getting event");
+            agent.add("Error getting event");
             reject("test");
-        });*/
+        });
     });
 }
 
