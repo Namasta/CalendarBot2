@@ -338,8 +338,8 @@ function updateParam(email, number, param, date, time, location, duration, conv)
                     // str += count + ". Your booking on " + dt.toDateString();
                     //str += "at " + time.toTimeString().slice(1,time.toTimeString().indexOf("GMT+")) + " is cancelled.";
                     //str += "Event "+ count + " updated . Your apointment now is date : " + dt.toDateString();
-                    str += "Event " + count + " updated . Your apointment is now date : " + dt.split('T')[0];
-                    str += "\r\n  time: " + tm.split('T')[1].split('+')[0];
+                    str += "Event " + count + " updated . Your apointment is now \n date : " + dt.split('T')[0];
+                    str += "\n  time: " + tm.split('T')[1].split('+')[0];
                     //agent.add(new Card({  title:  "Your apointment : Event " + count  ,}));
                     //agent.add(new Card({  title:  "date " + dt.toDateString()  ,}));
                     //agent.add(new Card({  title:  "time: " + tm.split('T')[1].split('+')[0]  ,}));
@@ -347,7 +347,7 @@ function updateParam(email, number, param, date, time, location, duration, conv)
                     //.toTimeString().split('GMT')[0];
                     //.split('T')[1].split('+')[0];
                     //str += "\r\n  time: " + tm.toTimeString().slice(1,tm.toTimeString().indexOf("GMT+"));
-                    str += "\r\n   duration: " + dur['amount'] + dur['unit'];
+                    str += "\n duration: " + dur['amount'] + dur['unit'];
                     var updateDoc = eventRef.doc(doc.id).update({ date: dt, time: tm, duration: dur });
                     console.log('Up:');
                 }
