@@ -77,7 +77,7 @@ app.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response
         var email = agent.parameters.email;
         //app.intent('GetAppt', (conv,{email}) =>{    
         return getQueries(email, agent).then((output) => {
-            agent.add(output);
+            //agent.add(output);
                         return console.log('GetAppt executed');
         });
     };
