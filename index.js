@@ -144,6 +144,7 @@ app.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response
     intentMap.set('CreateAppointment', createAppointment);
     intentMap.set('GetAppt', getAppointment);
     intentMap.set('CancelAppt', cancelAppointment);
+    intentMap.set('CancelSelectedAppt', cancelSelectedAppointment);
     intentMap.set('UpdateAppt', updateAppointment);
     intentMap.set('UpdateSelectedAppt', updateSelectedAppointment);
     intentMap.set('UpdateParameter', updateParameter);
@@ -241,16 +242,16 @@ function deleteAppt(email, number, agent) {
                 var time = doc.data().time;
                 if (dt > Date.now()) {
                     count++;
-                    /*if (count == number) {
+                    if (count == number) {
                         console.log('DEL:Found doc with id:', doc.id);
                         str += count + ". Your booking on " + dt.toDateString();
-                        str += " is cancelled.";
+                        //str += " is cancelled.";
                                          
-                        //str += " at " + time.split('T')[1].split('+')[0] + " is cancelled.";
+                        str += " at " + time.split('T')[1].split('+')[0] + " is cancelled.";
                         //Delete doc here
-                        //var deleteDoc = eventRef.doc(doc.id).delete();
+                        var deleteDoc = eventRef.doc(doc.id).delete();
                         console.log('DEL:', deleteDoc);
-                    }*/
+                    }
                 }
             });
             agent.add(str);
