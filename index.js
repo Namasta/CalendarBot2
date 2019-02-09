@@ -232,7 +232,7 @@ function deleteAppt(email, number, agent) {
     return new Promise((resolve, reject) => {
         var eventRef = db.collection('appointment').doc(email).collection('event');
         eventRef.get().then(snapshot => {
-            var str = "";
+            var str = "Hello cancelled";
             var id = "";
             var count = 0;
             //Get booking reference
@@ -241,7 +241,7 @@ function deleteAppt(email, number, agent) {
                 var time = doc.data().time;
                 if (dt > Date.now()) {
                     count++;
-                    if (count == number) {
+                    /*if (count == number) {
                         console.log('DEL:Found doc with id:', doc.id);
                         str += count + ". Your booking on " + dt.toDateString();
                         str += " is cancelled.";
@@ -250,7 +250,7 @@ function deleteAppt(email, number, agent) {
                         //Delete doc here
                         //var deleteDoc = eventRef.doc(doc.id).delete();
                         console.log('DEL:', deleteDoc);
-                    }
+                    }*/
                 }
             });
             agent.add(str);
@@ -285,7 +285,7 @@ function updateEvent(email, number, conv) {
                         //str += count + ". Your booking on " + dt.toDateString();
                         //str += "at " + time.toTimeString().slice(1,time.toTimeString().indexOf("GMT+")) + " is cancelled.";
                         //str += "Event " + count + ". Your apointment date : " + dt.toDateString();
-                        conv.add(new Card({  title:  "Event " + count + ". Your apointment" ,}));
+                        conv.add(new Card({  title:  "Your appointment : Event " + count  ,}));
                         conv.add(new Card({  title:  "date " + dt.toDateString()  ,}));
                         conv.add(new Card({  title:  "time: " + time.split('T')[1].split('+')[0]  ,}));
                         conv.add(new Card({  title:  "duration: " + dur['amount'] + dur['unit']  ,}));
@@ -339,6 +339,10 @@ function updateParam(email, number, param, date, time, location, duration, conv)
                     //str += "Event "+ count + " updated . Your apointment now is date : " + dt.toDateString();
                     str += "Event " + count + " updated . Your apointment is now date : " + dt.split('T')[0];
                     str += "\r\n  time: " + tm.split('T')[1].split('+')[0];
+                    agent.add(new Card({  title:  "Your apointment : Event " + count  ,}));
+                    agent.add(new Card({  title:  "date " + dt.toDateString()  ,}));
+                    agent.add(new Card({  title:  "time: " + time.split('T')[1].split('+')[0]  ,}));
+                    agent.add(new Card({  title:  "duration: " + dur['amount'] + dur['unit']  ,}));
                     //.toTimeString().split('GMT')[0];
                     //.split('T')[1].split('+')[0];
                     //str += "\r\n  time: " + tm.toTimeString().slice(1,tm.toTimeString().indexOf("GMT+"));
