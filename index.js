@@ -190,7 +190,7 @@ function getQueries(email, agent) {
                 str = "You do not have any appointment";
             }
 
-            snapshot.data().sort(function (a, b) { return b.date - a.date });
+            //snapshot.data().sort(function (a, b) { return b.date - a.date });
 
             snapshot.forEach(doc => {
                 var cardstr = "";
