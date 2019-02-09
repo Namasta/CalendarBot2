@@ -244,8 +244,9 @@ function deleteAppt(email, number, agent) {
                     if (count == number) {
                         console.log('DEL:Found doc with id:', doc.id);
                         str += count + ". Your booking on " + dt.toDateString();
+                        str += " is cancelled.";
                                          
-                        str += " at " + time.split('T')[1].split('+')[0] + " is cancelled.";
+                        //str += " at " + time.split('T')[1].split('+')[0] + " is cancelled.";
                         //Delete doc here
                         var deleteDoc = eventRef.doc(doc.id).delete();
                         console.log('DEL:', deleteDoc);
