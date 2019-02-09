@@ -340,10 +340,10 @@ function updateParam(email, number, param, date, time, location, duration, conv)
                     //str += "Event "+ count + " updated . Your apointment now is date : " + dt.toDateString();
                     str += "Event " + count + " updated . Your apointment is now date : " + dt.split('T')[0];
                     str += "\r\n  time: " + tm.split('T')[1].split('+')[0];
-                    agent.add(new Card({  title:  "Your apointment : Event " + count  ,}));
-                    agent.add(new Card({  title:  "date " + dt.toDateString()  ,}));
-                    agent.add(new Card({  title:  "time: " + tm.split('T')[1].split('+')[0]  ,}));
-                    agent.add(new Card({  title:  "duration: " + dur['amount'] + dur['unit']  ,}));
+                    //agent.add(new Card({  title:  "Your apointment : Event " + count  ,}));
+                    //agent.add(new Card({  title:  "date " + dt.toDateString()  ,}));
+                    //agent.add(new Card({  title:  "time: " + tm.split('T')[1].split('+')[0]  ,}));
+                    //agent.add(new Card({  title:  "duration: " + dur['amount'] + dur['unit']  ,}));
                     //.toTimeString().split('GMT')[0];
                     //.split('T')[1].split('+')[0];
                     //str += "\r\n  time: " + tm.toTimeString().slice(1,tm.toTimeString().indexOf("GMT+"));
