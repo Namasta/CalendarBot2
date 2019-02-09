@@ -105,7 +105,7 @@ app.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response
         var email = agent.parameters.email;
         //app.intent('UpdateAppt', (conv,{email}) =>{
         return getQueries(email, agent).then((output) => {
-            agent.add(output + " Which appointments do you wish to update?");
+            agent.add( " Which appointments do you wish to update?");
             return console.log("UpdateAppointmentIntent executed");
         })
     };
