@@ -342,7 +342,7 @@ function updateParam(email, number, param, date, time, location, duration, conv)
                     str += "\r\n  time: " + tm.split('T')[1].split('+')[0];
                     agent.add(new Card({  title:  "Your apointment : Event " + count  ,}));
                     agent.add(new Card({  title:  "date " + dt.toDateString()  ,}));
-                    agent.add(new Card({  title:  "time: " + time.split('T')[1].split('+')[0]  ,}));
+                    agent.add(new Card({  title:  "time: " + tm.split('T')[1].split('+')[0]  ,}));
                     agent.add(new Card({  title:  "duration: " + dur['amount'] + dur['unit']  ,}));
                     //.toTimeString().split('GMT')[0];
                     //.split('T')[1].split('+')[0];
