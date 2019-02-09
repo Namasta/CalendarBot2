@@ -248,7 +248,7 @@ function deleteAppt(email, number, agent) {
                                          
                         //str += " at " + time.split('T')[1].split('+')[0] + " is cancelled.";
                         //Delete doc here
-                        var deleteDoc = eventRef.doc(doc.id).delete();
+                        //var deleteDoc = eventRef.doc(doc.id).delete();
                         console.log('DEL:', deleteDoc);
                     }
                 }
