@@ -1,11 +1,5 @@
 'use strict';
 
-//const functions = require('firebase-functions');
-//const {webhookClient,  Button, Suggestion } = require('dialogflow-fulfillment');
-//const {dialogflow,BasicCard,} = require('actions-on-google');
-//const requestLib = require('request');
-
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const functions = require('firebase-functions');
@@ -57,8 +51,7 @@ app.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response
     }
 
     function createAppointment(agent) {
-        //agent.add(`I am testimage`);
-        //agent.add(`I'm sorry, can you try again?`);
+
         var entry = {
             name: agent.parameters.name,
             email: agent.parameters.email,
@@ -75,16 +68,13 @@ app.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response
 
     function getAppointment(agent) {
         var email = agent.parameters.email;
-        //app.intent('GetAppt', (conv,{email}) =>{    
         return getQueries(email, agent).then((output) => {
-            //agent.add(output);
-                        return console.log('GetAppt executed');
+            return console.log('GetAppt executed');
         });
     };
 
     function cancelAppointment(agent) {
         var email = agent.parameters.email;
-        //app.intent('CancelAppt', (conv,{email}) =>{
         return getQueries(email, agent).then((output) => {
             agent.add(" Which appointments do you wish to cancel?");
             return console.log("CancelAppointmentIntent executed");
@@ -94,18 +84,16 @@ app.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response
     function cancelSelectedAppointment(agent) {
         var email = agent.parameters.email;
         var number = agent.parameters.number;
-        //app.intent('CancelSelectedAppt', (conv,{email,number}) =>{
+
         return deleteAppt(email, number, agent).then((output) => {
-            //conv.ask("Cancellation Done");
             return console.log("CancelSelectedApptIntent executed");
         });
     };
 
     function updateAppointment(agent) {
         var email = agent.parameters.email;
-        //app.intent('UpdateAppt', (conv,{email}) =>{
         return getQueries(email, agent).then((output) => {
-            agent.add( " Which appointments do you wish to update?");
+            agent.add(" Which appointments do you wish to update?");
             return console.log("UpdateAppointmentIntent executed");
         })
     };
@@ -113,7 +101,6 @@ app.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response
     function updateSelectedAppointment(agent) {
         var email = agent.parameters.email;
         var number = agent.parameters.number;
-        //app.intent('UpdateSelectedAppt', (conv,{email,number}) =>{
         return updateEvent(email, number, agent).then((output) => {
             return console.log("UpdatedSelectedAppt Excuted ");
         });
@@ -128,7 +115,7 @@ app.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response
         var time = agent.parameters.time;
         var location = agent.parameters.location;
         var duration = agent.parameters.duration;
-        //app.intent('UpdateParameter', (conv, { email, number, param, date, time, location, duration }) => {
+
         return updateParam(email, number, param, date, time, location, duration, agent).then((output) => {
 
             return console.log("CancelSelectedApptIntent executed");
@@ -148,14 +135,14 @@ app.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response
     intentMap.set('UpdateAppt', updateAppointment);
     intentMap.set('UpdateSelectedAppt', updateSelectedAppointment);
     intentMap.set('UpdateParameter', updateParameter);
-    // intentMap.set('your intent name here', googleAssistantHandler);
+
     agent.handleRequest(intentMap);
 });
 
 const expressApp = express().use(bodyParser.json());
 
 expressApp.post('/fulfillment', app.dialogflowFirebaseFulfillment);
-//expressApp.listen(3000);
+
 var listener = expressApp.listen(process.env.PORT, process.env.IP, function () {
     //var listener = expressApp.listen(4000, process.env.IP, function () {
     console.log("server started");
@@ -184,10 +171,10 @@ function getQueries(email, agent) {
         eventRef.get().then(snapshot => {
             var str = "";
             var count = 0;
-            if(snapshot.size > 0){
+            if (snapshot.size > 0) {
                 str = "You have " + snapshot.size + " events. ";
             }
-            else{
+            else {
                 str = "You do not have any appointment";
             }
 
@@ -199,18 +186,16 @@ function getQueries(email, agent) {
                 var time = new Date(doc.data().time);
                 var tm = doc.data().time;
                 if (dt > Date.now()) {
-                    //console.log('Found doc with id:', doc.id);
+
                     count++;
-                    //str += 'Found doc with id:' + doc.id;
 
                     str += os.EOL;
                     str += "Event " + count + ", " + dt.toDateString();
                     cardstr += "Event " + count + ", " + dt.toDateString();
-                    //str += " at " + tm;
+
                     str += " at " + tm.split('T')[1].split('+')[0] + "." + os.EOL + "\t\n";
                     cardstr += " at " + tm.split('T')[1].split('+')[0] + ".";
-                    //time.split('T')[1].split('+')[0]
-                    //str += "at " + time.toTimeString().slice(1,time.toTimeString().indexOf("GMT+")) + "."; 
+
                 }
 
                 agent.add(new Card({
@@ -222,10 +207,10 @@ function getQueries(email, agent) {
             resolve(str);
         })
             .catch(err => {
-            console.log('Error getting documents', err);
-            agent.add("Error getting event");
-            reject("test");
-        });
+                console.log('Error getting documents', err);
+                agent.add("Error getting event");
+                reject("test");
+            });
     });
 }
 
@@ -246,7 +231,7 @@ function deleteAppt(email, number, agent) {
                         console.log('DEL:Found doc with id:', doc.id);
                         str += count + ". Your booking on " + dt.toDateString();
                         //str += " is cancelled.";
-                                         
+
                         str += " at " + time.split('T')[1].split('+')[0] + " is cancelled.";
                         //Delete doc here
                         var deleteDoc = eventRef.doc(doc.id).delete();
@@ -283,16 +268,12 @@ function updateEvent(email, number, conv) {
                     count++;
                     if (count == number) {
                         console.log('DEL:Found doc with id:', doc.id);
-                        //str += count + ". Your booking on " + dt.toDateString();
-                        //str += "at " + time.toTimeString().slice(1,time.toTimeString().indexOf("GMT+")) + " is cancelled.";
-                        //str += "Event " + count + ". Your apointment date : " + dt.toDateString();
-                        conv.add(new Card({  title:  "Your appointment : Event " + count  ,}));
-                        conv.add(new Card({  title:  "date " + dt.toDateString()  ,}));
-                        conv.add(new Card({  title:  "time: " + time.split('T')[1].split('+')[0]  ,}));
-                        conv.add(new Card({  title:  "duration: " + dur['amount'] + dur['unit']  ,}));
-                        //str += "\n  time: " + time.split('T')[1].split('+')[0];
-                        //str += "\n   duration: " + dur['amount'] + dur['unit'];
-                        //str += "\n    location: " + dur['amount'];
+
+                        conv.add(new Card({ title: "Your appointment : Event " + count, }));
+                        conv.add(new Card({ title: "date " + dt.toDateString(), }));
+                        conv.add(new Card({ title: "time: " + time.split('T')[1].split('+')[0], }));
+                        conv.add(new Card({ title: "duration: " + dur['amount'] + dur['unit'], }));
+
                         str += "\n    Which parameter and value do you want to update ? ";
                         //Delete doc here
                         //var deleteDoc = eventRef.doc(doc.id).delete();
@@ -327,31 +308,19 @@ function updateParam(email, number, param, date, time, location, duration, conv)
                 var tm = doc.data().time;
                 var dur = doc.data().duration;
                 var loc = doc.data().location;
-                //childSnap.val()['food']
-                //if(Date(dt) > Date.now()){
+
                 count++;
                 if (count == number) {
                     if (date != "") { dt = date }
                     if (time != "") { tm = time }
                     if (duration != "") { dur = duration }
                     console.log('DEL:Found doc with id:', doc.id);
-                    // str += count + ". Your booking on " + dt.toDateString();
-                    //str += "at " + time.toTimeString().slice(1,time.toTimeString().indexOf("GMT+")) + " is cancelled.";
-                    //str += "Event "+ count + " updated . Your apointment now is date : " + dt.toDateString();
                     str += "Event " + count + " updated . Your apointment is now \n date : " + dt.split('T')[0];
                     str += "\n  time: " + tm.split('T')[1].split('+')[0];
-                    //agent.add(new Card({  title:  "Your apointment : Event " + count  ,}));
-                    //agent.add(new Card({  title:  "date " + dt.toDateString()  ,}));
-                    //agent.add(new Card({  title:  "time: " + tm.split('T')[1].split('+')[0]  ,}));
-                    //agent.add(new Card({  title:  "duration: " + dur['amount'] + dur['unit']  ,}));
-                    //.toTimeString().split('GMT')[0];
-                    //.split('T')[1].split('+')[0];
-                    //str += "\r\n  time: " + tm.toTimeString().slice(1,tm.toTimeString().indexOf("GMT+"));
                     str += "\n duration: " + dur['amount'] + dur['unit'];
                     var updateDoc = eventRef.doc(doc.id).update({ date: dt, time: tm, duration: dur });
                     console.log('Up:');
                 }
-                //}
 
             });
             conv.add(str);
@@ -364,4 +333,3 @@ function updateParam(email, number, param, date, time, location, duration, conv)
             });
     });
 }
-//exports.dialogflowFirebaseFulfillment = functions.https.onRequest(app);
